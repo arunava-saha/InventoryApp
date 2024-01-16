@@ -22,36 +22,45 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const handleEdit = (id) => {
     const [product] = products.filter((product) => product.id === id);
-
+    console.log(products);
     setSelectedproduct(product);
     setIsEditing(true);
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      icon: "warning",
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
-    }).then((result) => {
-      if (result.value) {
-        const [product] = products.filter((product) => product.id === id);
+  const handleDelete = async (id) => {
+    // Swal.fire({
+    //   icon: "warning",
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   showCancelButton: true,
+    //   confirmButtonText: "Yes, delete it!",
+    //   cancelButtonText: "No, cancel!",
+    // }).then((result) => {
+    //   if (result.value) {
+    //     const [product] = products.filter((product) => product.id === id);
 
-        Swal.fire({
-          icon: "success",
-          title: "Deleted!",
-          text: `${product.title} by ${product.createdBy}'s data has been deleted.`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: "Deleted!",
+    //       text: `${product.title} by ${product.createdBy}'s data has been deleted.`,
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
 
-        const productsCopy = products.filter((product) => product.id !== id);
-        localStorage.setItem("products_data", JSON.stringify(productsCopy));
-        setproducts(productsCopy);
-      }
-    });
+    //     const productsCopy = products.filter((product) => product.id !== id);
+    //     localStorage.setItem("products_data", JSON.stringify(productsCopy));
+    //     setproducts(productsCopy);
+    //   }
+    // });
+    console.log(id);
+    // const itemResponse = await fetch(`http://localhost:8080/inventory/${id}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //   },
+    // });
+    // console.log(await itemResponse.json());
   };
 
   return (

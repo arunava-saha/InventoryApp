@@ -104,7 +104,10 @@ const Table = ({ products, handleEdit, handleDelete }) => {
                 </td>
                 <td className="text-left">
                   <button
-                    onClick={() => handleDelete(product.id)}
+                    onClick={() => {
+                      handleDelete(product._id);
+                      console.log(product.id);
+                    }}
                     className="button muted-button"
                   >
                     Delete

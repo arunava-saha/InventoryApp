@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 
 const Edit = ({ products, selectedproduct, setproducts, setIsEditing }) => {
-  const id = selectedproduct.id;
+  const id = selectedproduct._id;
+  console.log(id);
 
   const [title, settitle] = useState(selectedproduct.title);
   const [createdBy, setcreatedBy] = useState(selectedproduct.createdBy);
   const [price, setprice] = useState(selectedproduct.price);
   const [createdAt, setcreatedAt] = useState(selectedproduct.createdAt);
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (!title || !createdBy || !image || !price || !createdAt) {
+    if (!title || !createdBy || !price || !createdAt) {
       return Swal.fire({
         icon: "error",
         title: "Error!",
@@ -22,7 +23,6 @@ const Edit = ({ products, selectedproduct, setproducts, setIsEditing }) => {
     }
 
     const product = {
-      id,
       title,
       createdBy,
       price,
@@ -30,11 +30,20 @@ const Edit = ({ products, selectedproduct, setproducts, setIsEditing }) => {
     };
 
     for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) {
+      if (products[i]._id === id) {
         products.splice(i, 1, product);
         break;
       }
     }
+    const itemResponse = await fetch(`http://localhost:8080/inventory/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(product),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(await itemResponse.json());
 
     localStorage.setItem("products_data", JSON.stringify(products));
     setproducts(products);

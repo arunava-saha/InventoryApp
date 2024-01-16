@@ -6,41 +6,8 @@ import Swal from "sweetalert2";
 const Header = ({ setIsAdding, setIsAuthenticated }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("products_data");
     window.location.reload();
-  };
-
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    try {
-      const data = JSON.parse(localStorage.getItem("products_data"));
-      const token = localStorage.getItem("token");
-      console.log(token);
-      // Set headers
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      const url = `http://localhost:8080/inventory/`;
-      Swal.fire({
-        icon: "success",
-        title: "Updated!",
-        text: `Data has been Updated in the database.`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: localStorage.getItem("products_data"),
-      });
-      const item = await res.json();
-      console.log(item);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -62,9 +29,6 @@ const Header = ({ setIsAdding, setIsAuthenticated }) => {
         <button onClick={() => setIsAdding(true)}>Add Item</button>
         <button className="muted-button" onClick={handleLogout}>
           Logout
-        </button>
-        <button className="muted-button" onClick={handleUpload}>
-          Upload On Database
         </button>
       </div>
     </header>
