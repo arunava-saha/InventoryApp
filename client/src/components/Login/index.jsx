@@ -18,12 +18,16 @@ const Login = () => {
       const { data: res } = await axios.post(url, data);
       console.log(res.token);
       localStorage.setItem("token", res.token);
-      const response = await fetch("http://localhost:8080/inventory");
+      const Token = res.token;
+      const response = await fetch("http://localhost:8080/inventory", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const dataToStore = await response.json();
-      localStorage.setItem(
-        "products_data",
-        JSON.stringify(dataToStore.products)
-      );
+      console.log(dataToStore);
+      console.log(JSON.stringify(dataToStore));
+      localStorage.setItem("products_data", JSON.stringify(dataToStore));
       window.location = "/";
     } catch (error) {
       if (

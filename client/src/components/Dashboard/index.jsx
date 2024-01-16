@@ -10,7 +10,7 @@ import Edit from "./Edit";
 import { productData } from "../../data";
 
 const Dashboard = ({ setIsAuthenticated }) => {
-  const [products, setproducts] = useState(productData);
+  const [products, setproducts] = useState([]);
   const [selectedproduct, setSelectedproduct] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
